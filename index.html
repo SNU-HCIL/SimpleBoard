@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style type="text/css">
+    body{
+      background:black;
+      color:white;
+      font-size:60px;
+      padding:50px;
+      font-family:Arial, 'Malgun Gothic';
+    }
+  </style>
+</head>
+
+<body>
+  <div id="content">
+  </div>
+
+  <script src="https://d3js.org/d3.v4.min.js"></script>
+  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
+
+  <script>
+
+    function show(html){
+      d3.select('#content').html(html)
+    }
+
+  document.addEventListener('DOMContentLoaded', () =>{
+    let socket = io.connect('http://' + document.domain + ':' + location.port);
+    
+    socket.on('connect', function() {
+      socket.on('update', function(html){ 
+        console.log('updated')
+        show(html);
+      })
+    });
+})
+  </script>
+</body>
+</html>

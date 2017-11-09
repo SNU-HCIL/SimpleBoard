@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style type="text/css">
+  textarea {
+    width:800px;
+    height:600px;
+  }
+  </style>
+</head>
+
+<body>
+  <textarea id="content" autofocus> </textarea>
+
+  <script src="https://d3js.org/d3.v4.min.js"></script>
+  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
+
+  <script>
+
+
+
+
+    document.addEventListener('DOMContentLoaded', () =>{
+let content = document.querySelector('#content');
+
+function show(html){
+  content.value = html;
+    }
+    let socket = io.connect('http://' + document.domain + ':' + location.port);
+    
+    socket.on('connect', function() {
+      socket.on('update', function(html){ 
+        console.log('updated')
+        show(html);
+      })
+
+      content.onkeyup = function() {
+        socket.emit('edit', content.value)
+      }
+    });
+})
+  </script>
+</body>
+</html>
